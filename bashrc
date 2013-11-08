@@ -15,7 +15,7 @@ fi
 
 # load all files from .bash/rc.d directory
 if [ -d ~/.bash/rc.d ]; then
-  for file in ~/.bash/rc.d/*.sh; do
+  for file in ~/.bash/rc.d/*; do
     source $file
   done
 fi
