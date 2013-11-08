@@ -18,8 +18,13 @@ if type -P dircolors >/dev/null ; then
   fi
 fi
 
-# use colors for other programs
-alias grep='grep --color=auto'
+# color aliases
+for cmd in ls grep fgrep egrep; do
+  if $cmd --color=auto &> /dev/null; then
+    alias $cmd="$cmd --color=auto"
+  fi
+done
+
 export CLICOLOR=1
 
 # try to keep environment pollution down, EPA loves us.
