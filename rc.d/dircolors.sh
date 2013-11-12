@@ -2,15 +2,24 @@
 # instead of using /etc/DIR_COLORS.  Try to use the external file
 # first to take advantage of user additions.  Use internal bash
 # globbing instead of external grep binary.
+
+if [ -n "$BASH" ]; then
+  checkcmd="type -P"
+elif [ -n "$ZSH_NAME" ]; then
+  checkcmd="whence"
+else
+  checkcmd="false"
+fi
+
 match_lhs=""
 [[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
 [[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
 [[ -z ${match_lhs}    ]] \
-  && type -P dircolors >/dev/null \
+  && $checkcmd dircolors >/dev/null \
   && match_lhs=$(dircolors --print-database)
 
 # Enable colors for ls, etc.  Prefer ~/.dir_colors
-if type -P dircolors >/dev/null ; then
+if $checkcmd dircolors >/dev/null ; then
   if [[ -f ~/.dir_colors ]]; then
     eval $(dircolors -b ~/.dir_colors)
   elif [[ -f /etc/DIR_COLORS ]]; then
