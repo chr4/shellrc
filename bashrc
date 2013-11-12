@@ -13,9 +13,16 @@ if [[ $- != *i* ]] ; then
   return
 fi
 
-# load all files from .bash/rc.d directory
-if [ -d ~/.bash/rc.d ]; then
-  for file in ~/.bash/rc.d/*; do
+# load all files from .shell/bashrc.d directory
+if [ -d ~/.shell/bashrc.d ]; then
+  for file in ~/.shell/bashrc.d/*; do
+    source $file
+  done
+fi
+
+# load all files from .shell/rc.d directory
+if [ -d ~./shell/rc.d ]; then
+  for file in ~/.shell/rc.d/*; do
     source $file
   done
 fi
