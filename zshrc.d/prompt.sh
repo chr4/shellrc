@@ -43,7 +43,7 @@ git_prompt_string() {
 
 # set colorful prompt (PS1 doesn't support the color variables set above)
 if [[ ${EUID} == 0 ]]; then
-  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~ $(git_prompt_string)%{$fg[red]%}#{$reset_color%} '
+  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~ $(git_prompt_string)%{$fg[red]%}#%{$reset_color%} '
 else
   PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~ $(git_prompt_string)%{$reset_color%}$ '
 fi
