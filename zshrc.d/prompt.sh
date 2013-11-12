@@ -1,10 +1,10 @@
 autoload -Uz colors && colors
 
-parse_git_branch_full_ref() {
+function parse_git_branch_full_ref() {
   (git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD) 2> /dev/null
 }
 
-parse_git_state() {
+function parse_git_state() {
   local git_state=""
 
   local git_dir="$(git rev-parse --git-dir 2> /dev/null)"
@@ -33,7 +33,7 @@ parse_git_state() {
 }
 
 # If inside a git repository, print its branch and state
-git_prompt_string() {
+function git_prompt_string() {
   local git_where=$(parse_git_branch_full_ref)
 
   if [ -n "$git_where" ]; then
