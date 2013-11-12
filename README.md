@@ -18,6 +18,7 @@ git clone git://github.com/chr4/shellrc.git .shellrc
 # bash config
 ln -sf .shellrc/bashrc .bashrc
 ln -sf .shellrc/bash_profile .bash_profile
+ln -sf .shellrc/inputrc .inputrc
 
 # zsh config
 ln -sf .shellrc/zshrc .zshrc
