@@ -15,12 +15,23 @@ bindkey -M vicmd 'Y'  vi-yank-whole-line
 bindkey -M vicmd 'u' undo
 bindkey -M vicmd '^R' redo
 
-# use arrows to naviagte though history in insert mode,
-# use k and j instead of arrow keys in command mode
+# bind home and end key
+bindkey -M viins '^[[H' beginning-of-line
+bindkey -M viins '^[[F' end-of-line
+
+# use page-up/down to search history (insert and command mode)
+bindkey -M viins '^[[I' history-beginning-search-backward
+bindkey -M viins '^[[G' history-beginning-search-forward
+bindkey -M vicmd '^[[I' history-beginning-search-backward
+bindkey -M vicmd '^[[G' history-beginning-search-forward
+
+# use up/down arrows to search history (insert and command mode)
 bindkey -M viins '^[[A' history-beginning-search-backward
 bindkey -M viins '^[[B' history-beginning-search-forward
 bindkey -M vicmd '^[[A' history-beginning-search-backward
 bindkey -M vicmd '^[[B' history-beginning-search-forward
+
+# when in command mode, also allow history search with j and k
 bindkey -M vicmd 'k' history-beginning-search-backward
 bindkey -M vicmd 'j' history-beginning-search-forward
 
