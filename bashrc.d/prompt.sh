@@ -51,7 +51,7 @@ function git_prompt_string {
 }
 
 # set colorful prompt (PS1 doesn't support the color variables set above)
-if [[ ${EUID} == 0 ]] ; then
+if [[ ${EUID} == 0 ]]; then
   PS1='\[\033[00;37m\]\h \[\033[00;34m\]\W \[\033[00;00m\]$(git_prompt_string)\[\033[00;31m\]\$\[\033[00;00m\] '
 else
   PS1='\[\033[00;37m\]\h \[\033[00;34m\]\W \[\033[00;00m\]$(git_prompt_string)\$ '
