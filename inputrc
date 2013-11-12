@@ -28,10 +28,14 @@ $if mode=vi
   set keymap vi-command
   "\e[A": history-search-backward
   "\e[B": history-search-forward
+  "\e[5~": history-search-backward
+  "\e[6~": history-search-forward
 
   set keymap vi-insert
   "\e[A": history-search-backward
   "\e[B": history-search-forward
+  "\e[5~": history-search-backward
+  "\e[6~": history-search-forward
 $endif
 
 $if mode=emacs
@@ -44,6 +48,8 @@ $if mode=emacs
   # of the history
   "\e[A": history-search-backward
   "\e[B": history-search-forward
+  "\e[5~": history-search-backward
+  "\e[6~": history-search-forward
 
   # allow the use of the delete/insert keys
   "\e[3~": delete-char
