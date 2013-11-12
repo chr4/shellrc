@@ -14,15 +14,15 @@ if [[ $- != *i* ]] ; then
 fi
 
 # load all files from .shell/bashrc.d directory
-if [ -d ~/.shell/bashrc.d ]; then
-  for file in ~/.shell/bashrc.d/*; do
+if [ -d ~/.shellrc/bashrc.d ]; then
+  for file in ~/.shellrc/bashrc.d/*; do
     source $file
   done
 fi
 
 # load all files from .shell/rc.d directory
-if [ -d ~./shell/rc.d ]; then
-  for file in ~/.shell/rc.d/*; do
+if [ -d ~./shellrc/rc.d ]; then
+  for file in ~/.shellrc/rc.d/*; do
     source $file
   done
 fi

@@ -1,15 +1,15 @@
 # ~/.zshrc
 
 # load all files from .shell/zshrc.d directory
-if [ -d ~/.shell/zshrc.d ]; then
-  for file in ~/.shell/zshrc.d/*; do
+if [ -d ~/.shellrc/zshrc.d ]; then
+  for file in ~/.shellrc/zshrc.d/*; do
     source $file
   done
 fi
 
 # load all files from .shell/rc.d directory
-if [ -d ~/.shell/rc.d ]; then
-  for file in ~/.shell/rc.d/*; do
+if [ -d ~/.shellrc/rc.d ]; then
+  for file in ~/.shellrc/rc.d/*; do
     source $file
   done
 fi
