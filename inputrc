@@ -6,7 +6,7 @@
 # quick dirty little note:
 #  to get the key sequence for binding, you can abuse bash.
 #  while running bash, hit ctrl+v, and then type the key sequence.
-#  So, typing 'ALT + left arrow' in Konsole gets you back:
+#  so, typing 'alt + left arrow' in konsole gets you back:
 #    ^[[1;3D
 #  the readline entry to make this skip back a word will then be:
 #    "\e[1;3D" backward-word
