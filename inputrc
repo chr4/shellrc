@@ -44,56 +44,27 @@ $if mode=emacs
   "\e[1~": beginning-of-line
   "\e[4~": end-of-line
 
-  # mappings for "arrow up" and "arrow down" to step to the beginning/end
-  # of the history
+  # allow the use of the delete/insert keys
+  "\e[3~": delete-char
+  "\e[2~": quoted-insert
+
+  # use up/down arrows to search history
   "\e[A": history-search-backward
   "\e[B": history-search-forward
   "\e[5~": history-search-backward
   "\e[6~": history-search-forward
 
-  # allow the use of the delete/insert keys
-  "\e[3~": delete-char
-  "\e[2~": quoted-insert
-
-  # Mappings for ctrl-left-arrow and ctrl-right-arrow for word moving
-  "\e[5C": forward-word
-  "\e[5D": backward-word
+  # mappings for ctrl-left-arrow and ctrl-right-arrow for word moving
   "\e[1;5C": forward-word
   "\e[1;5D": backward-word
-
-  # gnome-terminal (escape + arrow key)
   "\e[5C": forward-word
   "\e[5D": backward-word
-  # gnome-terminal (control + arrow key)
-  "\e[1;5C": forward-word
-  "\e[1;5D": backward-word
-  # konsole / xterm / rxvt (escape + arrow key)
   "\e\e[C": forward-word
   "\e\e[D": backward-word
-  # konsole (alt + arrow key)
-  "\e[1;3C": forward-word
-  "\e[1;3D": backward-word
-  # konsole (control + arrow key)
-  "\e[1;3C": forward-word
-  "\e[1;3D": backward-word
-  # aterm / eterm (control + arrow key)
-  "\eOc": forward-word
-  "\eOd": backward-word
 
   $if term=rxvt
     "\e[8~": end-of-line
+    "\eOc": forward-word
+    "\eOd": backward-word
   $endif
-
-  # for non rh/debian xterm, can't hurt for rh/debian xterm
-  "\eOH": beginning-of-line
-  "\eOF": end-of-line
-
-  # for freebsd console
-  "\e[H": beginning-of-line
-  "\e[F": end-of-line
 $endif
-
-# fix home and end for german users
-"\e[7~": beginning-of-line
-"\e[8~": end-of-line
-
