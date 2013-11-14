@@ -3,6 +3,7 @@
 # first to take advantage of user additions.  Use internal bash
 # globbing instead of external grep binary.
 
+# command for checking whether dircolors is available
 if [ -n "$BASH" ]; then
   checkcmd="type -P"
 elif [ -n "$ZSH_NAME" ]; then
@@ -27,13 +28,14 @@ if $checkcmd dircolors >/dev/null ; then
   fi
 fi
 
-# color aliases
+# enable --color switch for commands, if supported
 for cmd in ls grep fgrep egrep; do
   if $cmd --color=auto &> /dev/null; then
     alias $cmd="$cmd --color=auto"
   fi
 done
 
+# macos ls doesn't support ls --color, but uses CLICOLOR environment variable
 export CLICOLOR=1
 
 # try to keep environment pollution down, EPA loves us.
