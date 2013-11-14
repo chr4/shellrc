@@ -12,13 +12,6 @@ else
   checkcmd="false"
 fi
 
-match_lhs=""
-[[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
-[[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
-[[ -z ${match_lhs}    ]] \
-  && $checkcmd dircolors >/dev/null \
-  && match_lhs=$(dircolors --print-database)
-
 # Enable colors for ls, etc.  Prefer ~/.dir_colors
 if $checkcmd dircolors >/dev/null ; then
   if [[ -f ~/.dir_colors ]]; then
