@@ -21,7 +21,7 @@ if [ -d ~/.shellrc/bashrc.d ]; then
 fi
 
 # load all files from .shell/rc.d directory
-if [ -d ~./shellrc/rc.d ]; then
+if [ -d ~/.shellrc/rc.d ]; then
   for file in ~/.shellrc/rc.d/*; do
     source $file
   done
