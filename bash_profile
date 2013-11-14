@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-[[ -f ~/.bashrc ]] && source ~/.bashrc
+if [ -f ~/.bashrc ]; then
+  source ~/.bashrc
+fi
