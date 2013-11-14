@@ -26,8 +26,3 @@ if [ -d ~./shellrc/rc.d ]; then
     source $file
   done
 fi
-
-# load aliases
-if [ -f ~/.bash_aliases ]; then
-  source ~/.bash_aliases
-fi
