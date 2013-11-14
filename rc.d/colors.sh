@@ -1,19 +1,10 @@
 # dircolors --print-database uses its own built-in database
-# instead of using /etc/DIR_COLORS.  Try to use the external file
-# first to take advantage of user additions.  Use internal bash
+# instead of using /etc/DIR_COLORS. try to use the external file
+# first to take advantage of user additions. use internal bash
 # globbing instead of external grep binary.
 
-# command for checking whether dircolors is available
-if [ -n "$BASH" ]; then
-  checkcmd="type -P"
-elif [ -n "$ZSH_NAME" ]; then
-  checkcmd="whence"
-else
-  checkcmd="false"
-fi
-
-# Enable colors for ls, etc.  Prefer ~/.dir_colors
-if $checkcmd dircolors >/dev/null ; then
+# enable colors for ls, etc. prefer ~/.dir_colors
+if [ -x /usr/bin/dircolors ]; then
   if [[ -f ~/.dir_colors ]]; then
     eval $(dircolors -b ~/.dir_colors)
   elif [[ -f /etc/DIR_COLORS ]]; then
