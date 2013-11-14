@@ -8,7 +8,7 @@ HISTFILESIZE=100000
 HISTSIZE=100000
 
 # ignore lines starting with a whitespace, as well as duplicates
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoredups:ignorespace
 
 # use shared history file with zsh
 HISTFILE=~/.history
