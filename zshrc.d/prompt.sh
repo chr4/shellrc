@@ -37,13 +37,13 @@ function git_prompt_string() {
   local git_where=$(parse_git_branch_full_ref)
 
   if [ -n "$git_where" ]; then
-    echo -n "(%{$fg[green]%}${git_where#refs/heads/}%{$reset_color%}|$(parse_git_state)) "
+    echo -n "(%{$fg[green]%}${git_where#refs/heads/}%{$reset_color%}|$(parse_git_state)%{$reset_color%}) "
   fi
 }
 
 # set colorful prompt (PS1 doesn't support the color variables set above)
 if [[ ${EUID} == 0 ]]; then
-  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~ $(git_prompt_string)%{$fg[red]%}#%{$reset_color%} '
+  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~%{$reset_color%} $(git_prompt_string)%{$fg[red]%}#%{$reset_color%} '
 else
-  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~ $(git_prompt_string)%{$reset_color%}$ '
+  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~%{$reset_color%} $(git_prompt_string)%{$reset_color%}$ '
 fi
