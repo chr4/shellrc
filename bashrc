@@ -15,7 +15,7 @@ fi
 
 # load all files from .shell/bashrc.d directory
 if [ -d ~/.shellrc/bashrc.d ]; then
-  for file in ~/.shellrc/bashrc.d/*; do
+  for file in ~/.shellrc/bashrc.d/*.bash; do
     source $file
   done
 fi
