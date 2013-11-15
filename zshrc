@@ -2,7 +2,7 @@
 
 # load all files from .shell/zshrc.d directory
 if [ -d ~/.shellrc/zshrc.d ]; then
-  for file in ~/.shellrc/zshrc.d/*; do
+  for file in ~/.shellrc/zshrc.d/*.zsh; do
     source $file
   done
 fi
