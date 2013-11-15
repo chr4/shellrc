@@ -15,10 +15,6 @@ bindkey -M vicmd 'Y'  vi-yank-whole-line
 bindkey -M vicmd 'U' undo
 bindkey -M vicmd '^R' redo
 
-# bind home and end key
-bindkey -M viins '^[[H' beginning-of-line
-bindkey -M viins '^[[F' end-of-line
-
 # use page-up/down to search history (insert and command mode)
 bindkey -M viins '^[[I' history-beginning-search-backward
 bindkey -M viins '^[[G' history-beginning-search-forward
