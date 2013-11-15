@@ -9,7 +9,7 @@ fi
 
 # load all files from .shell/rc.d directory
 if [ -d ~/.shellrc/rc.d ]; then
-  for file in ~/.shellrc/rc.d/*; do
+  for file in ~/.shellrc/rc.d/*.sh; do
     source $file
   done
 fi
