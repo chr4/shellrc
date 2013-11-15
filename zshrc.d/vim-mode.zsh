@@ -31,18 +31,6 @@ bindkey -M vicmd '^[[B' history-beginning-search-forward
 bindkey -M vicmd 'K' history-beginning-search-backward
 bindkey -M vicmd 'J' history-beginning-search-forward
 
-# bind ctrl-r for reverse search
-bindkey -M viins '^R' history-incremental-search-backward
-
-# bind ctrl-a and ctrl-e
-bindkey -M viins '^A' beginning-of-line
-bindkey -M viins '^E' end-of-line
-
-# open line in vim by pressing 'v' in command-mode
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey '^V' edit-command-line
-
 # if mode indicator wasn't setup by theme, define default
 if [[ "$MODE_INDICATOR" == "" ]]; then
   MODE_INDICATOR="%{$fg[red]%}<<<%{$reset_color%}"
