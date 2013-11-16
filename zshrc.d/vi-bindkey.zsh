@@ -1,12 +1,3 @@
-function zle-line-init zle-keymap-select() {
-  zle reset-prompt
-}
-
-zle -N zle-keymap-select
-
-# start in vim insert mode
-bindkey -v
-
 # yank
 bindkey -M vicmd 'YY' vi-yank-whole-line
 bindkey -M vicmd 'Y'  vi-yank-whole-line
@@ -30,17 +21,3 @@ bindkey -M vicmd '^[[B' history-beginning-search-forward
 # when in command mode, also allow history search with j and k
 bindkey -M vicmd 'K' history-beginning-search-backward
 bindkey -M vicmd 'J' history-beginning-search-forward
-
-# if mode indicator wasn't setup by theme, define default
-if [[ "$MODE_INDICATOR" == "" ]]; then
-  MODE_INDICATOR="%{$fg[red]%}<<<%{$reset_color%}"
-fi
-
-function vi_mode_prompt_info() {
-  echo "${${KEYMAP/vicmd/$MODE_INDICATOR}/(main|viins)/}"
-}
-
-# define right prompt, unless it was defined by a theme
-if [[ "$RPS1" == "" && "$RPROMPT" == "" ]]; then
-  RPS1='$(vi_mode_prompt_info)'
-fi
