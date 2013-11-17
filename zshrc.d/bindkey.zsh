@@ -20,6 +20,7 @@ for mode in vicmd viins emacs; do
   autoload -U edit-command-line
   zle -N edit-command-line
   bindkey -M $mode '^V' edit-command-line
+  bindkey -M $mode '^X^E' edit-command-line
 done
 
 # yank
