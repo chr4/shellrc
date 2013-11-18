@@ -6,6 +6,8 @@ for mode in vicmd viins emacs; do
   # use up/down arrows to search history
   bindkey -M $mode '^[[A' history-beginning-search-backward
   bindkey -M $mode '^[[B' history-beginning-search-forward
+
+  # use page-up/down to search history
   bindkey -M $mode '^[[I' history-beginning-search-backward
   bindkey -M $mode '^[[G' history-beginning-search-forward
 
@@ -16,7 +18,7 @@ for mode in vicmd viins emacs; do
   bindkey -M $mode '^A' beginning-of-line
   bindkey -M $mode '^E' end-of-line
 
-  # open line in vim by pressing 'v' in command-mode
+  # open line in vim by pressing 'v' or ctrl-x ctrl-e in command-mode
   autoload -U edit-command-line
   zle -N edit-command-line
   bindkey -M $mode '^V' edit-command-line
