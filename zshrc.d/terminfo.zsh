@@ -26,13 +26,23 @@ for mode in vicmd viins emacs; do
   [[ -n "${key[Right]}"  ]] && bindkey -M $mode "${key[Right]}"  forward-char
 done
 
-# finally, make sure the terminal is in application mode, when zle is
-# active. only then are the values from $terminfo valid.
-function zle-line-init () {
-  echoti smkx
+# ensures that $terminfo values are valid and updates editor information when
+# the keymap changes.
+function zle-keymap-select zle-line-init zle-line-finish {
+  # the terminal must be in application mode when zle is active for $terminfo
+  # values to be valid.
+  if (( ${+terminfo[smkx]} )); then
+    printf '%s' ${terminfo[smkx]}
+  fi
+
+  if (( ${+terminfo[rmkx]} )); then
+    printf '%s' ${terminfo[rmkx]}
+  fi
+
+  zle reset-prompt
+  zle -R
 }
-function zle-line-finish () {
-  echoti rmkx
-}
+
 zle -N zle-line-init
 zle -N zle-line-finish
+zle -N zle-keymap-select
