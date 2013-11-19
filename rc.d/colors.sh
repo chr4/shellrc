@@ -24,3 +24,21 @@ export CLICOLOR=1
 
 # try to keep environment pollution down, EPA loves us.
 unset match_lhs
+
+
+# define prompt colors shell-independently
+if [[ -n ${ZSH_VERSION-} ]]; then
+  c_red="%{$fg[red]%}"
+  c_green="%{$fg[green]%}"
+  c_yellow="%{$fg[yellow]%}"
+  c_blue="%{$fg[blue]%}"
+  c_clear="%{$reset_color%}"
+else
+  # Using \[ and \] around colors is necessary to prevent
+  # issues with command line editing/browsing/completion!
+  c_red=$'\e[00;31m'
+  c_green=$'\e[00;32m'
+  c_yellow=$'\e[00;33m'
+  c_blue=$'\e[00;34m'
+  c_clear=$'\e[00;00m'
+fi
