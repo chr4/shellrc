@@ -40,10 +40,12 @@
 # name.  You can configure this per-repository with the
 # bash.showDirtyState variable, which defaults to true once
 # GIT_PS1_SHOWDIRTYSTATE is enabled.
+GIT_PS1_SHOWDIRTYSTATE=1
 #
 # You can also see if currently something is stashed, by setting
 # GIT_PS1_SHOWSTASHSTATE to a nonempty value. If something is stashed,
 # then a '$' will be shown next to the branch name.
+GIT_PS1_SHOWSTASHSTATE=1
 #
 # If you would like to see if there're untracked files, then you can set
 # GIT_PS1_SHOWUNTRACKEDFILES to a nonempty value. If there're untracked
@@ -51,6 +53,7 @@
 # configure this per-repository with the bash.showUntrackedFiles
 # variable, which defaults to true once GIT_PS1_SHOWUNTRACKEDFILES is
 # enabled.
+GIT_PS1_SHOWUNTRACKEDFILES=1
 #
 # If you would like to see the difference between HEAD and its upstream,
 # set GIT_PS1_SHOWUPSTREAM="auto".  A "<" indicates you are behind, ">"
@@ -58,6 +61,7 @@
 # indicates that there is no difference. You can further control
 # behaviour by setting GIT_PS1_SHOWUPSTREAM to a space-separated list
 # of values:
+GIT_PS1_SHOWUPSTREAM="verbose"
 #
 #     verbose       show number of commits ahead/behind (+/-) upstream
 #     name          if verbose, then also show the upstream abbrev name
@@ -180,78 +184,32 @@ __git_ps1_show_upstream ()
     "") # no upstream
       p="" ;;
     "0  0") # equal to upstream
-      p="=" ;;
+      p="" ;;
     "0  "*) # ahead of upstream
-      p=">" ;;
+      p="${c_blue}↑${c_clear}" ;;
     *"  0") # behind upstream
-      p="<" ;;
+      p="${c_blue}↓${c_clear}" ;;
     *)      # diverged from upstream
-      p="<>" ;;
+      p="${c_red}↑↓${c_clear}" ;;
     esac
   else
     case "$count" in
     "") # no upstream
       p="" ;;
     "0  0") # equal to upstream
-      p=" u=" ;;
+      p="" ;;
     "0  "*) # ahead of upstream
-      p=" u+${count#0 }" ;;
+      p=" ${c_blue}↑${count#0 }${c_clear}" ;;
     *"  0") # behind upstream
-      p=" u-${count%  0}" ;;
+      p=" ${c_blue}↓${count%  0}${c_clear}" ;;
     *)      # diverged from upstream
-      p=" u+${count#* }-${count%  *}" ;;
+      p=" ${c_blue}↑${count#* }↓${count%  *}${c_clear}" ;;
     esac
     if [[ -n "$count" && -n "$name" ]]; then
-      p="$p $(git rev-parse --abbrev-ref "$upstream" 2>/dev/null)"
+      p="$p ${c_green}$(git rev-parse --abbrev-ref "$upstream" 2>/dev/null)${c_clear}"
     fi
   fi
 
-}
-
-# Helper function that is meant to be called from __git_ps1.  It
-# injects color codes into the appropriate gitstring variables used
-# to build a gitstring.
-__git_ps1_colorize_gitstring ()
-{
-  if [[ -n ${ZSH_VERSION-} ]]; then
-    local c_red='%F{red}'
-    local c_green='%F{green}'
-    local c_lblue='%F{blue}'
-    local c_clear='%f'
-  else
-    # Using \[ and \] around colors is necessary to prevent
-    # issues with command line editing/browsing/completion!
-    local c_red='\[\e[31m\]'
-    local c_green='\[\e[32m\]'
-    local c_lblue='\[\e[1;34m\]'
-    local c_clear='\[\e[0m\]'
-  fi
-  local bad_color=$c_red
-  local ok_color=$c_green
-  local flags_color="$c_lblue"
-
-  local branch_color=""
-  if [ $detached = no ]; then
-    branch_color="$ok_color"
-  else
-    branch_color="$bad_color"
-  fi
-  c="$branch_color$c"
-
-  z="$c_clear$z"
-  if [ "$w" = "*" ]; then
-    w="$bad_color$w"
-  fi
-  if [ -n "$i" ]; then
-    i="$ok_color$i"
-  fi
-  if [ -n "$s" ]; then
-    s="$flags_color$s"
-  fi
-  if [ -n "$u" ]; then
-    u="$bad_color$u"
-  fi
-  r="$c_clear$r"
 }
 
 # __git_ps1 accepts 0 or 1 arguments (i.e., format string)
@@ -394,31 +352,31 @@ __git_ps1 ()
 
   if [ "true" = "$inside_gitdir" ]; then
     if [ "true" = "$bare_repo" ]; then
-      c="BARE:"
+      c="${c_red}bare:${c_clear}"
     else
-      b="GIT_DIR!"
+      b="${c_red}.git${c_clear}"
     fi
   elif [ "true" = "$inside_worktree" ]; then
     if [ -n "${GIT_PS1_SHOWDIRTYSTATE-}" ] &&
        [ "$(git config --bool bash.showDirtyState)" != "false" ]
     then
-      git diff --no-ext-diff --quiet --exit-code || w="*"
+      git diff --no-ext-diff --quiet --exit-code || w="${c_red}✗${c_clear}"
       if [ -n "$short_sha" ]; then
-        git diff-index --cached --quiet HEAD -- || i="+"
+        git diff-index --cached --quiet HEAD -- || i="${c_yellow}✗${c_clear}"
       else
-        i="#"
+        i="${c_yellow}#${c_clear}"
       fi
     fi
     if [ -n "${GIT_PS1_SHOWSTASHSTATE-}" ] &&
        [ -r "$g/refs/stash" ]; then
-      s="$"
+      s="$c_cyans${c_clear}"
     fi
 
     if [ -n "${GIT_PS1_SHOWUNTRACKEDFILES-}" ] &&
        [ "$(git config --bool bash.showUntrackedFiles)" != "false" ] &&
        git ls-files --others --exclude-standard --error-unmatch -- '*' >/dev/null 2>/dev/null
     then
-      u="%${ZSH_VERSION+%}"
+      u="${c_red}…${c_clear}"
     fi
 
     if [ -n "${GIT_PS1_SHOWUPSTREAM-}" ]; then
@@ -426,15 +384,12 @@ __git_ps1 ()
     fi
   fi
 
-  local z="${GIT_PS1_STATESEPARATOR-" "}"
-
-  # NO color option unless in PROMPT_COMMAND mode
-  if [ $pcmode = yes ] && [ -n "${GIT_PS1_SHOWCOLORHINTS-}" ]; then
-    __git_ps1_colorize_gitstring
-  fi
+  local z="${GIT_PS1_STATESEPARATOR-"|"}"
 
   local f="$w$i$s$u"
-  local gitstring="$c${b##refs/heads/}${f:+$z$f}$r$p"
+  [ -z "$f" ] && f="${c_green}✔${c_clear}"
+
+  local gitstring="$c${c_green}${b##refs/heads/}${c_clear}${f:+$z$f}$r$p"
 
   if [ $pcmode = yes ]; then
     if [ "${__git_printf_supports_v-}" != yes ]; then
