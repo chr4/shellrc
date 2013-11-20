@@ -1,14 +1,5 @@
-# enable history appending instead of overwriting
-shopt -s histappend
-
-# the maximum number of lines contained in the history file
-HISTFILESIZE=100000
-
-# the number of commands to remember in the command history
-HISTSIZE=100000
-
-# ignore lines starting with a whitespace, as well as duplicates
-HISTCONTROL=ignoredups:ignorespace
-
-# use shared history file with zsh
-HISTFILE=~/.history
+shopt -s histappend                # enable history appending instead of overwriting
+HISTSIZE=100000                    # remember up to 100.000 entries
+HISTFILESIZE=$HISTSIZE             # store as many entries in file as in memory
+HISTFILE=~/.history                # share history file with zsh
+HISTCONTROL=ignoredups:ignorespace # ignore lines starting with a whitespace, as well as duplicates
