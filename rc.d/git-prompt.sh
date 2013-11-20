@@ -256,9 +256,9 @@ __git_ps1 ()
     read step 2>/dev/null <"$g/rebase-merge/msgnum"
     read total 2>/dev/null <"$g/rebase-merge/end"
     if [ -f "$g/rebase-merge/interactive" ]; then
-      r="|REBASE-i"
+      r="|${c_red}rebase -i${c_clear}"
     else
-      r="|REBASE-m"
+      r="|${c_red}rebase -m${c_clear}"
     fi
   else
     if [ -d "$g/rebase-apply" ]; then
@@ -266,20 +266,20 @@ __git_ps1 ()
       read total 2>/dev/null <"$g/rebase-apply/last"
       if [ -f "$g/rebase-apply/rebasing" ]; then
         read b 2>/dev/null <"$g/rebase-apply/head-name"
-        r="|REBASE"
+        r="|${c_red}rebase${c_clear}"
       elif [ -f "$g/rebase-apply/applying" ]; then
-        r="|AM"
+        r="|${c_red}am${c_clear}"
       else
-        r="|AM/REBASE"
+        r="|${c_red}am/rebase${c_clear}"
       fi
     elif [ -f "$g/MERGE_HEAD" ]; then
-      r="|MERGING"
+      r="|${c_red}merging${c_clear}"
     elif [ -f "$g/CHERRY_PICK_HEAD" ]; then
-      r="|CHERRY-PICKING"
+      r="|${c_red}cherry-picking${c_clear}"
     elif [ -f "$g/REVERT_HEAD" ]; then
-      r="|REVERTING"
+      r="|${c_red}reverting${c_clear}"
     elif [ -f "$g/BISECT_LOG" ]; then
-      r="|BISECTING"
+      r="|${c_red}bisecting${c_clear}"
     fi
 
     if [ -n "$b" ]; then
