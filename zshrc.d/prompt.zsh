@@ -4,7 +4,7 @@ autoload -Uz colors && colors
 if [[ ${EUID} == 0 ]]; then
   PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~%{$reset_color%}$(__git_ps1 " (%s)") %{$fg[red]%}⨠%{$reset_color%} '
 else
-  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~%{$reset_color%}$(__git_ps1 " (%s)")%{$reset_color%} ⨠ '
+  PROMPT='%{$fg[white]%}%m %{$fg[blue]%}%1~%{$reset_color%}$(__git_ps1 " (%s)") %{$fg[white]%}⨠%{$reset_color%} '
 fi
 
 RPROMPT='$(vi_mode_prompt_info) $(exit_code_prompt_info)'
