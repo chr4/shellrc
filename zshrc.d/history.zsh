@@ -1,4 +1,4 @@
-HISTSIZE=100000             # remember to 100.000 entries
+HISTSIZE=100000             # remember up to 100.000 entries
 SAVEHIST=$HISTSIZE          # save history to file
 HISTFILE=~/.history         # share history file with bash
 
