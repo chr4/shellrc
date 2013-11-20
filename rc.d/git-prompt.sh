@@ -347,7 +347,7 @@ __git_ps1 ()
     fi
     if [ -n "${GIT_PS1_SHOWSTASHSTATE-}" ] &&
        [ -r "$g/refs/stash" ]; then
-      s="$c_cyans${c_clear}"
+      s="${c_yellow}★${c_clear}"
     fi
 
     if [ -n "${GIT_PS1_SHOWUNTRACKEDFILES-}" ] &&
