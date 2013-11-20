@@ -61,12 +61,10 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 # indicates that there is no difference. You can further control
 # behaviour by setting GIT_PS1_SHOWUPSTREAM to a space-separated list
 # of values:
-GIT_PS1_SHOWUPSTREAM="verbose"
+GIT_PS1_SHOWUPSTREAM="auto"
 #
 #     verbose       show number of commits ahead/behind (+/-) upstream
 #     name          if verbose, then also show the upstream abbrev name
-#     legacy        don't use the '--count' option available in recent
-#                   versions of git-rev-list
 #     git           always compare HEAD to @{upstream}
 #     svn           always compare HEAD to your SVN upstream
 #
@@ -93,8 +91,8 @@ printf -v __git_printf_supports_v -- '%s' yes >/dev/null 2>&1
 __git_ps1_show_upstream ()
 {
   local key value
-  local svn_remote svn_url_pattern count n
-  local upstream=git legacy="" verbose="" name=""
+  local svn_remote svn_url_pattern behind=0 ahead=0 n
+  local upstream=git verbose="" name=""
 
   svn_remote=()
   # get some config options from git-config
@@ -121,7 +119,6 @@ __git_ps1_show_upstream ()
     case "$option" in
     git|svn) upstream="$option" ;;
     verbose) verbose=1 ;;
-    legacy)  legacy=1  ;;
     name)    name=1 ;;
     esac
   done
@@ -156,60 +153,41 @@ __git_ps1_show_upstream ()
   esac
 
   # Find how many commits we are ahead/behind our upstream
-  if [[ -z "$legacy" ]]; then
-    count="$(git rev-list --count --left-right \
-        "$upstream"...HEAD 2>/dev/null)"
-  else
-    # produce equivalent output to --count for older versions of git
-    local commits
-    if commits="$(git rev-list --left-right "$upstream"...HEAD 2>/dev/null)"
-    then
-      local commit behind=0 ahead=0
-      for commit in $commits
-      do
-        case "$commit" in
-        "<"*) ((behind++)) ;;
-        *)    ((ahead++))  ;;
-        esac
-      done
-      count="$behind  $ahead"
-    else
-      count=""
-    fi
+  local commits
+  if commits="$(git rev-list --left-right "$upstream"...HEAD 2>/dev/null)"; then
+    local commit
+    for commit in $commits
+    do
+      case "$commit" in
+      "<"*) ((behind++)) ;;
+      *)    ((ahead++))  ;;
+      esac
+    done
   fi
 
   # calculate the result
-  if [[ -z "$verbose" ]]; then
-    case "$count" in
-    "") # no upstream
-      p="" ;;
-    "0  0") # equal to upstream
-      p="" ;;
-    "0  "*) # ahead of upstream
-      p="${c_blue}↑${c_clear}" ;;
-    *"  0") # behind upstream
-      p="${c_blue}↓${c_clear}" ;;
-    *)      # diverged from upstream
-      p="${c_red}↑↓${c_clear}" ;;
-    esac
+  if [ $ahead -eq $behind ]; then
+    # equal to upstream
+    p=""
+  elif [ $ahead -gt $behind ]; then
+    # ahead of upstream
+    p="|${c_blue}↑${c_clear}"
+    [ -n "$verbose" ] && p="|${c_blue}↑${ahead}${c_clear}"
+  elif [ $behind -gt $ahead ]; then
+    # behind upstream
+    p="|${c_blue}↓${c_clear}"
+    [ -n "$verbose" ] && p="|${c_blue}↓${behind}${c_clear}"
   else
-    case "$count" in
-    "") # no upstream
-      p="" ;;
-    "0  0") # equal to upstream
-      p="" ;;
-    "0  "*) # ahead of upstream
-      p=" ${c_blue}↑${count#0 }${c_clear}" ;;
-    *"  0") # behind upstream
-      p=" ${c_blue}↓${count%  0}${c_clear}" ;;
-    *)      # diverged from upstream
-      p=" ${c_blue}↑${count#* }↓${count%  *}${c_clear}" ;;
-    esac
+    # diverged from upstream
+    p="|${c_blue}↑↓${c_clear}"
+    [ -n "$verbose" ] && p="|${c_blue}↑${ahead} ↓${behind}${c_clear}"
+  fi
+
+  if [ -z "$verbose" ]; then
     if [[ -n "$count" && -n "$name" ]]; then
       p="$p ${c_green}$(git rev-parse --abbrev-ref "$upstream" 2>/dev/null)${c_clear}"
     fi
   fi
-
 }
 
 # __git_ps1 accepts 0 or 1 arguments (i.e., format string)
