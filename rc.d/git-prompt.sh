@@ -171,15 +171,15 @@ __git_ps1_show_upstream ()
   elif [ $ahead -gt $behind -a $behind -eq 0 ]; then
     # ahead of upstream
     p="|${c_blue}↑${c_clear}"
-    [ -n "$verbose" ] && p="|${c_blue}↑${ahead}${c_clear}"
+    if [ -n "$verbose" ]; then p="|${c_blue}↑${ahead}${c_clear}"; fi
   elif [ $behind -gt $ahead -a $ahead -eq 0 ]; then
     # behind upstream
     p="|${c_blue}↓${c_clear}"
-    [ -n "$verbose" ] && p="|${c_blue}↓${behind}${c_clear}"
+    if [ -n "$verbose" ]; then p="|${c_blue}↓${behind}${c_clear}"; fi
   else
     # diverged from upstream
     p="|${c_blue}↑↓${c_clear}"
-    [ -n "$verbose" ] && p="|${c_blue}↑${ahead} ↓${behind}${c_clear}"
+    if [ -n "$verbose" ]; then p="|${c_blue}↑${ahead} ↓${behind}${c_clear}"; fi
   fi
 
   if [ -z "$verbose" ]; then
