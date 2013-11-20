@@ -91,7 +91,7 @@ printf -v __git_printf_supports_v -- '%s' yes >/dev/null 2>&1
 __git_ps1_show_upstream ()
 {
   local key value
-  local svn_remote svn_url_pattern behind=0 ahead=0 n
+  local svn_remote svn_url_pattern n
   local upstream=git verbose="" name=""
 
   svn_remote=()
@@ -153,27 +153,18 @@ __git_ps1_show_upstream ()
   esac
 
   # Find how many commits we are ahead/behind our upstream
-  local commits
-  if commits="$(git rev-list --left-right "$upstream"...HEAD 2>/dev/null)"; then
-    local commit
-    for commit in $commits
-    do
-      case "$commit" in
-      "<"*) ((behind++)) ;;
-      *)    ((ahead++))  ;;
-      esac
-    done
-  fi
+  behind="$(git rev-list --left-only --count "$upstream"...HEAD 2>/dev/null)"
+  ahead="$(git rev-list --right-only --count "$upstream"...HEAD 2>/dev/null)"
 
   # calculate the result
-  if [ $ahead -eq $behind ]; then
+  if [ $ahead -eq 0 -a $behind -eq 0 ]; then
     # equal to upstream
     p=""
-  elif [ $ahead -gt $behind ]; then
+  elif [ $ahead -gt $behind -a $behind -eq 0 ]; then
     # ahead of upstream
     p="|${c_blue}↑${c_clear}"
     [ -n "$verbose" ] && p="|${c_blue}↑${ahead}${c_clear}"
-  elif [ $behind -gt $ahead ]; then
+  elif [ $behind -gt $ahead -a $ahead -eq 0 ]; then
     # behind upstream
     p="|${c_blue}↓${c_clear}"
     [ -n "$verbose" ] && p="|${c_blue}↓${behind}${c_clear}"
