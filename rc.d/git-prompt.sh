@@ -158,6 +158,12 @@ __git_ps1_show_upstream ()
   behind="$(git rev-list --left-only --count "$upstream"...HEAD 2>/dev/null)"
   ahead="$(git rev-list --right-only --count "$upstream"...HEAD 2>/dev/null)"
 
+  # return unless both values are given
+  if [ -z "$ahead" -o -z "$behind" ]; then
+    p=""
+    return -1
+  fi
+
   # calculate the result
   if [ $ahead -eq 0 -a $behind -eq 0 ]; then
     # equal to upstream
