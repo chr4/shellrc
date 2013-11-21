@@ -341,7 +341,7 @@ __git_ps1 ()
       if [ -n "$short_sha" ]; then
         git diff-index --cached --quiet HEAD -- || i="${c_yellow}✗${c_clear}"
       else
-        i="${c_yellow}#${c_clear}"
+        i="${c_yellow}⊔${c_clear}"
       fi
     fi
     if [ -n "${GIT_PS1_SHOWSTASHSTATE-}" ] &&
