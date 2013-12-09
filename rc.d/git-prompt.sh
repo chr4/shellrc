@@ -161,7 +161,7 @@ __git_ps1_show_upstream ()
   # return unless both values are given
   if [ -z "$ahead" -o -z "$behind" ]; then
     p=""
-    return -1
+    return
   fi
 
   # calculate the result
