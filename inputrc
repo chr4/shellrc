@@ -1,0 +1,70 @@
+# .inputrc: initialization file for readline
+#
+# for more information on how this file works, please see the
+# initialization file section of the readline(3) man page
+#
+# quick dirty little note:
+#  to get the key sequence for binding, you can abuse bash.
+#  while running bash, hit ctrl+v, and then type the key sequence.
+#  so, typing 'alt + left arrow' in konsole gets you back:
+#    ^[[1;3D
+#  the readline entry to make this skip back a word will then be:
+#    "\e[1;3D" backward-word
+#
+
+# do not bell on tab-completion
+set bell-style none
+
+# 8bit settings
+set meta-flag on
+set input-meta on
+set convert-meta off
+set output-meta on
+
+# append a slash to completed names which are symbolic links to directories
+set mark-symlinked-directories on
+
+$if mode=vi
+  set keymap vi-command
+  "\e[A": history-search-backward
+  "\e[B": history-search-forward
+  "\e[5~": history-search-backward
+  "\e[6~": history-search-forward
+
+  set keymap vi-insert
+  "\e[A": history-search-backward
+  "\e[B": history-search-forward
+  "\e[5~": history-search-backward
+  "\e[6~": history-search-forward
+$endif
+
+$if mode=emacs
+  # for linux console and rh/debian xterm
+  # allow the use of the home/end keys
+  "\e[1~": beginning-of-line
+  "\e[4~": end-of-line
+
+  # allow the use of the delete/insert keys
+  "\e[3~": delete-char
+  "\e[2~": quoted-insert
+
+  # use up/down arrows to search history
+  "\e[A": history-search-backward
+  "\e[B": history-search-forward
+  "\e[5~": history-search-backward
+  "\e[6~": history-search-forward
+
+  # mappings for ctrl-left-arrow and ctrl-right-arrow for word moving
+  "\e[1;5C": forward-word
+  "\e[1;5D": backward-word
+  "\e[5C": forward-word
+  "\e[5D": backward-word
+  "\e\e[C": forward-word
+  "\e\e[D": backward-word
+
+  $if term=rxvt
+    "\e[8~": end-of-line
+    "\eOc": forward-word
+    "\eOd": backward-word
+  $endif
+$endif
